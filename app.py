@@ -13,7 +13,8 @@ app.secret_key = 'momodao_2026_secret_key_change_me'
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'images')
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5MB
 
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'momodao.db')
+# 数据库路径：优先用环境变量，否则用/tmp（容器可写目录）
+DB_PATH = os.environ.get('DATABASE_PATH', os.path.join('/tmp', 'momodao.db'))
 
 # ============ 数据库初始化 ============
 def get_db():
