@@ -112,6 +112,9 @@ def init_db():
     conn.commit()
     conn.close()
 
+# 启动时初始化数据库（gunicorn等生产服务器也会执行）
+init_db()
+
 # ============ 工具函数 ============
 def get_config():
     conn = get_db()
