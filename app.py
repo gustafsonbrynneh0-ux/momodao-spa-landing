@@ -302,10 +302,11 @@ def upload_banner():
 
 if __name__ == '__main__':
     init_db()
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
     print('=' * 50)
     print('  摩陌到家落地页系统')
-    print('  前台地址: http://127.0.0.1:5000')
-    print('  后台地址: http://127.0.0.1:5000/admin')
-    print('  默认账号: admin / admin123')
+    print(f'  运行端口: {port}')
+    print(f'  调试模式: {debug}')
     print('=' * 50)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=debug)

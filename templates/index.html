@@ -365,8 +365,8 @@ body {
   <!-- 服务项目列表 -->
   <div class="services-section">
     <div class="services-title">
-      <h2>— 热门服务项目 —</h2>
-      <div class="en">HOT SERVICE ITEMS</div>
+      <h2>— {{ config.services_title }} —</h2>
+      <div class="en">{{ config.services_title_en }}</div>
     </div>
 
     {% for s in services %}
@@ -428,10 +428,10 @@ body {
 <!-- 微信弹窗 -->
 <div class="wechat-modal-mask" id="wechatModal" onclick="hideWechatModal(event)">
   <div class="wechat-modal">
-    <h3>添加微信好友了解产品</h3>
+    <h3>{{ config.modal_title }}</h3>
     <div class="wechat-id-box">{{ config.wechat_id }}</div>
-    <p>长按复制微信号，打开微信添加好友，<br>免费获取一对一专业指导呦！</p>
-    <button class="close-btn" onclick="hideWechatModal()">我知道了</button>
+    <p>{{ config.modal_tip }}</p>
+    <button class="close-btn" onclick="hideWechatModal()">{{ config.modal_btn }}</button>
   </div>
 </div>
 
