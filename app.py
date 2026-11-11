@@ -66,17 +66,27 @@ def init_db():
     if c.fetchone()[0] == 0:
         default_config = {
             'site_name': '摩陌到家',
+            'brand_name': '摩陌到家',
+            'services_title': '精选服务项目',
+            'services_title_en': 'OUR SERVICES',
             'wechat_id': 'momodao_kefu',
+            'wechat_icon': 'wechat_icon.webp',
             'wechat_guide': '这是老师的微信号：',
             'wechat_tip': '（长按复制添加好友），打开微信添加好友，免费获取一对一专业指导呦！',
             'wechat_btn_text': '添加微信',
             'bottom_btn_text': '关注',
+            'bottom_wechat_text': '高端SPA，上门服务',
             'company_name': '四川宅约科技有限公司',
             'banner_bg_color': '#b8384a',
             'faqs_title': '更多问答',
             'kefu_btn_text': '立即咨询',
             'banner_image': 'banner.png',
             'services_image': 'services.png',
+            'trust_text': '预约成功',
+            'trust_btn_text': '立即预约',
+            'modal_title': '添加微信',
+            'modal_tip': '长按复制微信号，打开微信添加好友',
+            'modal_btn': '我知道了',
         }
         for k, v in default_config.items():
             c.execute('INSERT INTO site_config (key, value) VALUES (?, ?)', (k, v))
