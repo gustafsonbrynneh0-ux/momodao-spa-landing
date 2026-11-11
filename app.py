@@ -80,8 +80,8 @@ def init_db():
             'banner_bg_color': '#b8384a',
             'faqs_title': '更多问答',
             'kefu_btn_text': '立即咨询',
-            'banner_image': 'banner.png',
-            'services_image': 'services.png',
+            'banner_image': 'banner_final.jpg',
+            'services_image': 'banner_final.jpg',
             'trust_text': '预约成功',
             'trust_btn_text': '立即预约',
             'modal_title': '添加微信',
@@ -94,11 +94,11 @@ def init_db():
     c.execute('SELECT COUNT(*) FROM services')
     if c.fetchone()[0] == 0:
         default_services = [
-            ('帝王尊享SPA', '身心舒缓｜激活能量', '100分钟', 'service1.png', 1, 1),
-            ('梦幻柔韵SPA', '身心解压｜帮助睡眠', '90分钟', 'service2.png', 2, 1),
-            ('古典舒缓SPA', '舒筋活络｜焕然神态', '80分钟', 'service3.png', 3, 1),
-            ('芳香舒缓推拿', '活血化瘀｜消除疲劳', '70分钟', 'service4.png', 4, 1),
-            ('中式古法推拿', '舒缓疲劳｜疏通经络', '60分钟', 'service5.png', 5, 1),
+            ('帝王尊享SPA', '身心舒缓｜激活能量', '100分钟', 'service1_new.png', 1, 1),
+            ('梦幻柔韵SPA', '身心解压｜帮助睡眠', '90分钟', 'service2_new.png', 2, 1),
+            ('古典舒缓SPA', '舒筋活络｜焕然神态', '80分钟', 'service3_new.png', 3, 1),
+            ('芳香舒缓推拿', '活血化瘀｜消除疲劳', '70分钟', 'service4_new.png', 4, 1),
+            ('中式古法推拿', '舒缓疲劳｜疏通经络', '60分钟', 'service5_new.png', 5, 1),
         ]
         c.executemany('INSERT INTO services (name, desc, duration, image, sort_order, is_active) VALUES (?,?,?,?,?,?)', default_services)
 
@@ -115,7 +115,7 @@ def init_db():
         c.execute('INSERT INTO admin_users (username, password) VALUES (?, ?)', ('admin', 'admin123'))
 
     # 确保主图配置项存在（兼容旧数据库）
-    for k, v in [('banner_image', 'banner.png'), ('services_image', 'services.png')]:
+    for k, v in [('banner_image', 'banner_final.jpg'), ('services_image', 'banner_final.jpg')]:
         c.execute('SELECT COUNT(*) FROM site_config WHERE key=?', (k,))
         if c.fetchone()[0] == 0:
             c.execute('INSERT INTO site_config (key, value) VALUES (?, ?)', (k, v))
