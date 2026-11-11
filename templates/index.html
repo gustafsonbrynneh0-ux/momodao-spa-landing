@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>{{ config.site_name }}</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f5f5f5;
+  color: #333;
+}
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 70px;
+}
+
+/* ===== 首屏 Banner ===== */
+.banner-container {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.banner-bg {
+  width: 100%;
+  display: block;
+}
+.brand-overlay {
+  position: absolute;
+  top: 33%;
+  left: 22%;
+  display: flex;
+  align-items: baseline;
+}
+.brand-part1 {
+  font-size: 46px;
+  font-weight: 900;
+  color: #d4a017;
+  font-family: "PingFang SC", "Microsoft YaHei", "Heiti SC", sans-serif;
+  line-height: 1;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+.brand-part2 {
+  font-size: 36px;
+  font-weight: 900;
+  color: #fff;
+  font-family: "PingFang SC", "Microsoft YaHei", "Heiti SC", sans-serif;
+  line-height: 1;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* ===== 服务项目列表 ===== */
+.services-section {
+  background: #f0f8f4;
+  padding: 24px 12px 16px;
+}
+.services-title {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.services-title h2 {
+  font-size: 22px;
+  color: #2a9d6e;
+  font-weight: 700;
+}
+.services-title .en {
+  font-size: 12px;
+  color: #2a9d6e;
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+.service-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: relative;
+}
+.service-card img {
+  width: 100px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #eee;
+}
+.service-card .info {
+  flex: 1;
+  min-width: 0;
+}
+.service-card .info h3 {
+  font-size: 18px;
+  color: #2a9d6e;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.service-card .info p {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.service-card .info .duration {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+.wechat-float-btn {
+  background: #1aad17;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(26,173,23,0.4);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.wechat-float-btn img {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+/* ===== FAQ 列表 ===== */
+.faq-section {
+  background: #fff;
+  padding: 16px 16px 8px;
+}
+.faq-item {
+  display: block;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 0;
+  text-decoration: none;
+  color: inherit;
+}
+.faq-item:last-child {
+  border-bottom: none;
+}
+.faq-q {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.faq-icon {
+  width: 28px;
+  height: 28px;
+  background: #e6322e;
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.faq-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.4;
+}
+.faq-preview {
+  margin-top: 8px;
+  margin-left: 38px;
+  font-size: 14px;
+  color: #999;
+  line-height: 1.6;
+}
+.faq-preview .expand-text {
+  color: #666;
+  font-weight: 500;
+}
+
+/* ===== 底部商家信息 ===== */
+.footer {
+  background: #fff;
+  text-align: center;
+  padding: 16px 16px 20px;
+  color: #999;
+  font-size: 12px;
+}
+
+/* ===== 社交证明条 ===== */
+.trust-bar {
+  background: linear-gradient(to right, #fff5f5, #ffe8e8);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.trust-bar .avatars {
+  display: flex;
+  flex-shrink: 0;
+}
+.trust-bar .avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #fff;
+  margin-left: -6px;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.trust-bar .avatar:first-child {
+  margin-left: 0;
+}
+.trust-bar .trust-text {
+  flex: 1;
+  font-size: 12px;
+  color: #333;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.trust-bar .trust-text #onlineCount {
+  color: #e6322e;
+  font-weight: 700;
+}
+.trust-bar .trust-btn {
+  background: #e6322e;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(230,50,46,0.3);
+}
+
+/* ===== 底部固定微信栏 ===== */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+.bottom-bar .logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.bottom-bar .desc {
+  flex: 1;
+  font-size: 12px;
+  color: #333;
+  line-height: 1.4;
+}
+.bottom-bar .desc .wechat-id {
+  color: #1aad17;
+  font-weight: 600;
+}
+.bottom-bar .btn {
+  background: #1aad17;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ===== 微信弹窗 ===== */
+.wechat-modal-mask {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+.wechat-modal-mask.show {
+  display: flex;
+}
+.wechat-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px 24px;
+  width: 85%;
+  max-width: 340px;
+  text-align: center;
+}
+.wechat-modal h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #333;
+}
+.wechat-modal .wechat-id-box {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #1aad17;
+  font-weight: 700;
+  margin-bottom: 16px;
+  user-select: all;
+}
+.wechat-modal p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.wechat-modal .close-btn {
+  background: #1aad17;
+  color: #fff;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 50px;
+  font-size: 15px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 首屏 Banner -->
+  <div class="banner-container">
+    <img class="banner-bg" src="/static/images/{{ config.banner_image }}" alt="{{ config.site_name }}">
+
+    <!-- 品牌名（就选后面，金色大字） -->
+    <div class="brand-overlay">
+      {% set brand = config.brand_name %}
+      <span class="brand-part1">{{ brand[:2] }}</span><span class="brand-part2">{{ brand[2:] }}</span>
+    </div>
+  </div>
+
+  <!-- 服务项目列表 -->
+  <div class="services-section">
+    <div class="services-title">
+      <h2>— 热门服务项目 —</h2>
+      <div class="en">HOT SERVICE ITEMS</div>
+    </div>
+
+    {% for s in services %}
+    <div class="service-card">
+      <img src="/static/images/{{ s.image }}" alt="{{ s.name }}">
+      <div class="info">
+        <h3>{{ s.name }}</h3>
+        <p>{{ s.desc }}</p>
+        <div class="duration">{{ s.duration }}</div>
+      </div>
+      <button class="wechat-float-btn" onclick="showWechatModal()">
+        <img src="/static/images/{{ config.wechat_icon }}" alt="微信">
+        {{ config.wechat_btn_text }}
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- FAQ 列表 -->
+  <div class="faq-section">
+    {% for f in faqs %}
+    <a class="faq-item" href="/faq/{{ f.id }}">
+      <div class="faq-q">
+        <span class="faq-icon">问</span>
+        <span class="faq-title">{{ f.question }}</span>
+      </div>
+      <div class="faq-preview">{{ f.answer[:50] }}...<span class="expand-text">展开 ›</span></div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- 社交证明条（实时咨询） -->
+  <div class="trust-bar">
+    <div class="avatars" id="avatarGroup">
+      <img class="avatar" src="/static/images/avatars/avatar_1.webp" alt="用户头像">
+      <img class="avatar" src="/static/images/avatars/avatar_2.webp" alt="用户头像">
+      <img class="avatar" src="/static/images/avatars/avatar_3.webp" alt="用户头像">
+      <img class="avatar" src="/static/images/avatars/avatar_4.webp" alt="用户头像">
+      <img class="avatar" src="/static/images/avatars/avatar_5.webp" alt="用户头像">
+    </div>
+    <div class="trust-text">刚刚有 <span id="onlineCount">23</span> 人{{ config.trust_text }}</div>
+    <button class="trust-btn" onclick="showWechatModal()">{{ config.trust_btn_text }}</button>
+  </div>
+
+  <!-- 底部商家信息 -->
+  <div class="footer">
+    {{ config.company_name }}
+  </div>
+
+  <!-- 底部固定微信栏 -->
+  <div class="bottom-bar">
+    <img class="logo" src="/static/images/{{ config.wechat_icon }}" alt="微信">
+    <div class="desc">{{ config.bottom_wechat_text }}</div>
+    <button class="btn" onclick="showWechatModal()">{{ config.bottom_btn_text }}</button>
+  </div>
+
+</div>
+
+<!-- 微信弹窗 -->
+<div class="wechat-modal-mask" id="wechatModal" onclick="hideWechatModal(event)">
+  <div class="wechat-modal">
+    <h3>添加微信好友了解产品</h3>
+    <div class="wechat-id-box">{{ config.wechat_id }}</div>
+    <p>长按复制微信号，打开微信添加好友，<br>免费获取一对一专业指导呦！</p>
+    <button class="close-btn" onclick="hideWechatModal()">我知道了</button>
+  </div>
+</div>
+
+<script>
+function showWechatModal() {
+  document.getElementById('wechatModal').classList.add('show');
+}
+function hideWechatModal(e) {
+  if (e && e.target !== document.getElementById('wechatModal') && e.type === 'click') return;
+  document.getElementById('wechatModal').classList.remove('show');
+}
+function toggleFaq(el) {
+  el.classList.toggle('open');
+}
+
+// ===== 头像动态轮换 =====
+const totalAvatars = 32;
+const avatarEls = document.querySelectorAll('#avatarGroup .avatar');
+
+function randomizeAvatars() {
+  const used = new Set();
+  avatarEls.forEach(el => {
+    let num;
+    do {
+      num = Math.floor(Math.random() * totalAvatars) + 1;
+    } while (used.has(num));
+    used.add(num);
+    el.src = `/static/images/avatars/avatar_${num}.webp`;
+  });
+}
+
+// 每4秒换一批头像
+setInterval(randomizeAvatars, 4000);
+
+// ===== 在线人数动态变化 =====
+const onlineEl = document.getElementById('onlineCount');
+let onlineCount = 23;
+
+function updateOnlineCount() {
+  const delta = Math.floor(Math.random() * 7) - 3; // -3 到 +3
+  onlineCount = Math.max(8, Math.min(99, onlineCount + delta));
+  onlineEl.textContent = onlineCount;
+}
+
+// 每3秒更新一次在线人数
+setInterval(updateOnlineCount, 3000);
+</script>
+</body>
+</html>

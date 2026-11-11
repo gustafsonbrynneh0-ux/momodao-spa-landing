@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>{{ faq.question }} - {{ config.site_name }}</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #fff;
+  color: #333;
+}
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* 顶部返回栏 */
+.top-bar {
+  background: #fff;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.top-bar a {
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 问题区 */
+.question-box {
+  padding: 20px 16px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.question-icon {
+  width: 28px;
+  height: 28px;
+  background: #e6322e;
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.question-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* 答案区 */
+.answer-box {
+  padding: 0 16px 20px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.answer-icon {
+  width: 28px;
+  height: 28px;
+  background: #4a90e2;
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.answer-text {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.8;
+  white-space: pre-line;
+  flex: 1;
+}
+
+/* 底部微信栏 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+.bottom-bar .logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.bottom-bar .desc {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+.bottom-bar .btn {
+  background: #1aad17;
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 微信弹窗 */
+.wechat-modal-mask {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+.wechat-modal-mask.show {
+  display: flex;
+}
+.wechat-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px 24px;
+  width: 85%;
+  max-width: 340px;
+  text-align: center;
+}
+.wechat-modal h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #333;
+}
+.wechat-modal .wechat-id-box {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #1aad17;
+  font-weight: 700;
+  margin-bottom: 16px;
+  user-select: all;
+}
+.wechat-modal p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.wechat-modal .close-btn {
+  background: #1aad17;
+  color: #fff;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 50px;
+  font-size: 15px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 顶部返回栏 -->
+  <div class="top-bar">
+    <a href="/">← 返回</a>
+  </div>
+
+  <!-- 问题 -->
+  <div class="question-box">
+    <div class="question-icon">问</div>
+    <div class="question-text">{{ faq.question }}</div>
+  </div>
+
+  <!-- 答案 -->
+  <div class="answer-box">
+    <div class="answer-icon">答</div>
+    <div class="answer-text">{{ faq.answer }}</div>
+  </div>
+
+</div>
+
+<!-- 底部微信栏 -->
+<div class="bottom-bar">
+  <img class="logo" src="/static/images/{{ config.wechat_icon }}" alt="微信">
+  <div class="desc">{{ config.wechat_guide }}{{ config.wechat_id }}</div>
+  <button class="btn" onclick="showWechatModal()">＋{{ config.bottom_btn_text }}</button>
+</div>
+
+<!-- 微信弹窗 -->
+<div class="wechat-modal-mask" id="wechatModal" onclick="hideWechatModal(event)">
+  <div class="wechat-modal">
+    <h3>添加微信好友了解产品</h3>
+    <div class="wechat-id-box">{{ config.wechat_id }}</div>
+    <p>长按复制微信号，打开微信添加好友，<br>免费获取一对一专业指导呦！</p>
+    <button class="close-btn" onclick="hideWechatModal()">我知道了</button>
+  </div>
+</div>
+
+<script>
+function showWechatModal() {
+  document.getElementById('wechatModal').classList.add('show');
+}
+function hideWechatModal(e) {
+  if (e && e.target !== document.getElementById('wechatModal') && e.type === 'click') return;
+  document.getElementById('wechatModal').classList.remove('show');
+}
+</script>
+</body>
+</html>

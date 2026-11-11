@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>管理后台 - 仪表盘</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f5f7fa;
+  color: #333;
+}
+.header {
+  background: #fff;
+  padding: 16px 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header h1 { font-size: 20px; }
+.header .actions a {
+  color: #667eea;
+  text-decoration: none;
+  margin-left: 16px;
+  font-size: 14px;
+}
+.container {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.card h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+  align-items: center;
+}
+.form-row label {
+  width: 120px;
+  font-size: 14px;
+  color: #666;
+  flex-shrink: 0;
+}
+.form-row input, .form-row textarea, .form-row select {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+.form-row textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn-primary { background: #667eea; color: #fff; }
+.btn-danger { background: #e6322e; color: #fff; }
+.btn-success { background: #1aad17; color: #fff; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+
+.item-list { margin-bottom: 16px; }
+.item {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.item-header h3 { font-size: 16px; color: #333; }
+
+.upload-area {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+.upload-area:hover { border-color: #667eea; }
+.upload-area p { color: #999; font-size: 14px; }
+
+.toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 999;
+  display: none;
+}
+.toast.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>摩陌到家 · 管理后台</h1>
+  <div class="actions">
+    <a href="/" target="_blank">查看前台</a>
+    <a href="/admin/logout">退出登录</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 全局设置 -->
+  <div class="card">
+    <h2>全局设置</h2>
+    <form id="configForm">
+      <div class="form-row">
+        <label>站点名称</label>
+        <input type="text" name="config_site_name" value="{{ config.site_name }}">
+      </div>
+      <div class="form-row">
+        <label>品牌名（Banner上的）</label>
+        <input type="text" name="config_brand_name" value="{{ config.brand_name }}">
+      </div>
+      <div class="form-row">
+        <label>微信号</label>
+        <input type="text" name="config_wechat_id" value="{{ config.wechat_id }}">
+      </div>
+      <div class="form-row">
+        <label>微信引导语</label>
+        <input type="text" name="config_wechat_guide" value="{{ config.wechat_guide }}">
+      </div>
+      <div class="form-row">
+        <label>微信提示语</label>
+        <input type="text" name="config_wechat_tip" value="{{ config.wechat_tip }}">
+      </div>
+      <div class="form-row">
+        <label>添加微信按钮文字</label>
+        <input type="text" name="config_wechat_btn_text" value="{{ config.wechat_btn_text }}">
+      </div>
+      <div class="form-row">
+        <label>底部按钮文字</label>
+        <input type="text" name="config_bottom_btn_text" value="{{ config.bottom_btn_text }}">
+      </div>
+      <div class="form-row">
+        <label>公司名称</label>
+        <input type="text" name="config_company_name" value="{{ config.company_name }}">
+      </div>
+      <div class="form-row">
+        <label>首屏背景色</label>
+        <input type="text" name="config_banner_bg_color" value="{{ config.banner_bg_color }}">
+      </div>
+      <div class="form-row">
+        <label>FAQ标题</label>
+        <input type="text" name="config_faqs_title" value="{{ config.faqs_title }}">
+      </div>
+      <div class="form-row">
+        <label>咨询按钮文字</label>
+        <input type="text" name="config_kefu_btn_text" value="{{ config.kefu_btn_text }}">
+      </div>
+
+      <div style="margin: 20px 0 10px; padding-top: 16px; border-top: 1px dashed #ddd; font-weight: 600; color: #667eea;">底部信任条</div>
+
+      <div class="form-row">
+        <label>信任条文案</label>
+        <input type="text" name="config_trust_text" value="{{ config.trust_text }}">
+      </div>
+      <div class="form-row">
+        <label>信任条按钮文字</label>
+        <input type="text" name="config_trust_btn_text" value="{{ config.trust_btn_text }}">
+      </div>
+
+      <div style="margin: 20px 0 10px; padding-top: 16px; border-top: 1px dashed #ddd; font-weight: 600; color: #667eea;">图标设置</div>
+
+      <div class="form-row">
+        <label>微信图标</label>
+        <input type="text" name="config_wechat_icon" value="{{ config.wechat_icon }}" id="cfg_wechat_icon" readonly>
+        <input type="file" accept="image/*" onchange="uploadMainImage(this, 'wechat_icon')">
+      </div>
+      <div class="form-row">
+        <label>微信图标预览</label>
+        <img src="/static/images/{{ config.wechat_icon }}" style="width: 36px; border-radius: 6px;">
+      </div>
+
+      <div style="margin: 20px 0 10px; padding-top: 16px; border-top: 1px dashed #ddd; font-weight: 600; color: #667eea;">主图设置</div>
+
+      <div class="form-row">
+        <label>首屏Banner图</label>
+        <input type="text" name="config_banner_image" value="{{ config.banner_image }}" id="cfg_banner_img" readonly>
+        <input type="file" accept="image/*" onchange="uploadMainImage(this, 'banner_image')">
+      </div>
+      <div class="form-row">
+        <label>Banner预览</label>
+        <img src="/static/images/{{ config.banner_image }}" style="width: 120px; border-radius: 6px; border: 1px solid #eee;">
+      </div>
+
+      <div class="form-row">
+        <label>服务列表图</label>
+        <input type="text" name="config_services_image" value="{{ config.services_image }}" id="cfg_services_img" readonly>
+        <input type="file" accept="image/*" onchange="uploadMainImage(this, 'services_image')">
+      </div>
+      <div class="form-row">
+        <label>服务图预览</label>
+        <img src="/static/images/{{ config.services_image }}" style="width: 120px; border-radius: 6px; border: 1px solid #eee;">
+      </div>
+
+      <div class="form-row">
+        <label></label>
+        <button type="button" class="btn btn-primary" onclick="saveConfig()">保存全局设置</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 服务项目管理 -->
+  <div class="card">
+    <h2>服务项目管理</h2>
+    <div id="servicesList">
+      {% for s in services %}
+      <div class="item" data-id="{{ s.id }}">
+        <div class="item-header">
+          <h3>{{ s.name }}</h3>
+          <button class="btn btn-danger btn-sm" onclick="deleteService({{ s.id }})">删除</button>
+        </div>
+        <div class="form-row">
+          <label>名称</label>
+          <input type="text" value="{{ s.name }}" onchange="updateServiceField({{ s.id }}, 'name', this.value)">
+        </div>
+        <div class="form-row">
+          <label>描述</label>
+          <input type="text" value="{{ s.desc }}" onchange="updateServiceField({{ s.id }}, 'desc', this.value)">
+        </div>
+        <div class="form-row">
+          <label>时长</label>
+          <input type="text" value="{{ s.duration }}" onchange="updateServiceField({{ s.id }}, 'duration', this.value)">
+        </div>
+        <div class="form-row">
+          <label>排序</label>
+          <input type="number" value="{{ s.sort_order }}" onchange="updateServiceField({{ s.id }}, 'sort_order', this.value)">
+        </div>
+        <div class="form-row">
+          <label>图片</label>
+          <input type="text" value="{{ s.image }}" id="service_img_{{ s.id }}" readonly>
+          <input type="file" accept="image/*" onchange="uploadImage(this, {{ s.id }})">
+        </div>
+        <div class="form-row">
+          <label>预览</label>
+          <img src="/static/images/{{ s.image }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #eee;">
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <button class="btn btn-success" onclick="addService()">+ 添加服务项目</button>
+  </div>
+
+  <!-- FAQ管理 -->
+  <div class="card">
+    <h2>FAQ问答管理</h2>
+    <div id="faqsList">
+      {% for f in faqs %}
+      <div class="item" data-id="{{ f.id }}">
+        <div class="item-header">
+          <h3>{{ f.question }}</h3>
+          <button class="btn btn-danger btn-sm" onclick="deleteFaq({{ f.id }})">删除</button>
+        </div>
+        <div class="form-row">
+          <label>问题</label>
+          <input type="text" value="{{ f.question }}" onchange="updateFaqField({{ f.id }}, 'question', this.value)">
+        </div>
+        <div class="form-row">
+          <label>答案</label>
+          <textarea onchange="updateFaqField({{ f.id }}, 'answer', this.value)">{{ f.answer }}</textarea>
+        </div>
+        <div class="form-row">
+          <label>排序</label>
+          <input type="number" value="{{ f.sort_order }}" onchange="updateFaqField({{ f.id }}, 'sort_order', this.value)">
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <button class="btn btn-success" onclick="addFaq()">+ 添加问答</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// 保存全局配置
+function saveConfig() {
+  const form = document.getElementById('configForm');
+  const formData = new FormData(form);
+  fetch('/admin/save_config', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) showToast('保存成功');
+    });
+}
+
+// 服务项目
+function updateServiceField(id, field, value) {
+  const formData = new FormData();
+  formData.append('id', id);
+  formData.append(field, value);
+  // 补全其他字段
+  const item = document.querySelector(`.item[data-id="${id}"]`);
+  formData.append('name', item.querySelector('input[onchange*="name"]').value);
+  formData.append('desc', item.querySelector('input[onchange*="desc"]').value);
+  formData.append('duration', item.querySelector('input[onchange*="duration"]').value);
+  formData.append('sort_order', item.querySelector('input[onchange*="sort_order"]').value);
+  formData.append('image', document.getElementById(`service_img_${id}`).value);
+
+  fetch('/admin/save_service', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(data => { if (data.success) showToast('已保存'); });
+}
+
+function deleteService(id) {
+  if (!confirm('确定删除这个服务项目吗？')) return;
+  fetch(`/admin/delete_service/${id}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        document.querySelector(`.item[data-id="${id}"]`).remove();
+        showToast('已删除');
+      }
+    });
+}
+
+function addService() {
+  const name = prompt('请输入服务名称：');
+  if (!name) return;
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('desc', '');
+  formData.append('duration', '');
+  formData.append('image', '');
+  formData.append('sort_order', 99);
+  fetch('/admin/save_service', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(data => { if (data.success) location.reload(); });
+}
+
+// 上传图片
+function uploadImage(input, serviceId) {
+  const file = input.files[0];
+  if (!file) return;
+  const formData = new FormData();
+  formData.append('file', file);
+  fetch('/admin/upload_image', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        const url = data.url;
+        const filename = url.split('/').pop();
+        document.getElementById(`service_img_${serviceId}`).value = filename;
+        updateServiceField(serviceId, 'image', filename);
+        showToast('图片上传成功');
+      } else {
+        showToast(data.msg || '上传失败');
+      }
+    });
+}
+
+// FAQ
+function updateFaqField(id, field, value) {
+  const item = document.querySelector(`.item[data-id="${id}"]`);
+  const formData = new FormData();
+  formData.append('id', id);
+  formData.append('question', item.querySelector('input[onchange*="question"]').value);
+  formData.append('answer', item.querySelector('textarea').value);
+  formData.append('sort_order', item.querySelector('input[onchange*="sort_order"]').value);
+
+  fetch('/admin/save_faq', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(data => { if (data.success) showToast('已保存'); });
+}
+
+function deleteFaq(id) {
+  if (!confirm('确定删除这个问答吗？')) return;
+  fetch(`/admin/delete_faq/${id}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        document.querySelector(`.item[data-id="${id}"]`).remove();
+        showToast('已删除');
+      }
+    });
+}
+
+function addFaq() {
+  const question = prompt('请输入问题：');
+  if (!question) return;
+  const formData = new FormData();
+  formData.append('question', question);
+  formData.append('answer', '');
+  formData.append('sort_order', 99);
+  fetch('/admin/save_faq', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(data => { if (data.success) location.reload(); });
+}
+
+// 上传主图（Banner / 服务列表）
+function uploadMainImage(input, configKey) {
+  const file = input.files[0];
+  if (!file) return;
+  const formData = new FormData();
+  formData.append('file', file);
+  fetch('/admin/upload_image', { method: 'POST', body: formData })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        const filename = data.url.split('/').pop();
+        // 更新对应的输入框
+        if (configKey === 'banner_image') {
+          document.getElementById('cfg_banner_img').value = filename;
+        } else {
+          document.getElementById('cfg_services_img').value = filename;
+        }
+        // 保存到配置
+        const saveData = new FormData();
+        saveData.append('config_' + configKey, filename);
+        fetch('/admin/save_config', { method: 'POST', body: saveData })
+          .then(r => r.json())
+          .then(() => showToast('主图已更新'));
+      } else {
+        showToast(data.msg || '上传失败');
+      }
+    });
+}
+</script>
+
+</body>
+</html>
