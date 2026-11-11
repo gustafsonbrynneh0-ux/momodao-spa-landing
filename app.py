@@ -10,10 +10,10 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 
 app = Flask(__name__)
 app.secret_key = 'momodao_2026_secret_key_change_me'
-app.config['UPLOAD_FOLDER'] = 'static/images'
+app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'images')
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5MB
 
-DB_PATH = 'momodao.db'
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'momodao.db')
 
 # ============ 数据库初始化 ============
 def get_db():
